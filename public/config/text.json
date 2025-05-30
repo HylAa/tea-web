@@ -1,0 +1,157 @@
+{
+  "banner": {
+    "subtitle": "以用户体验为核心的竞技平台",
+    "title": "TeaHvH竞技平台",
+    "description": "您的支持，观看，您的每一次参与，支撑着我们这个平台的运行和服务。让我们一起创造未来的竞技之光！",
+    "joinButton": "加入服务器"
+  },
+  "servers": {
+    "title": "我们的服务器",
+    "subtitle": "多种游戏模式，总有一款适合你",
+    "loading": "加载中...",
+    "viewAllButton": "查看全部服务器",
+    "fetchError": "获取服务器列表失败"
+  },
+  "advantage": {
+    "subtitle": "我们的服务",
+    "title": "我们的优势",
+    "description": "我们提供最专业的服务和最优质的游戏体验，让您尽情享受游戏的乐趣",
+    "cards": [
+      {
+        "title": "服务稳定",
+        "description": "安全可靠的服务上线工作让您无后顾之忧",
+        "icon": "shield-outline"
+      },
+      {
+        "title": "技术领先",
+        "description": "高效的技术团队，专业的服务器技术支持",
+        "icon": "code-working-outline"
+      },
+      {
+        "title": "服务器稳定",
+        "description": "多地区服务器分布，确保游戏的流畅性",
+        "icon": "server-outline"
+      },
+      {
+        "title": "多样性社区",
+        "description": "开放、友好、多元化的社区环境",
+        "icon": "people-outline"
+      },
+      {
+        "title": "全面的功能",
+        "description": "丰富、多样、实用的功能满足各种需求",
+        "icon": "star-outline"
+      },
+      {
+        "title": "无限的可能性",
+        "description": "不断创新，持续优化，为用户提供最好的体验",
+        "icon": "time-outline"
+      }
+    ]
+  },
+  "about": {
+    "title": "关于",
+    "subtitle": "了解TeaHvH社区的历史与发展",
+    "card": {
+      "title": "TeaHvH社区的故事",
+      "content": "TeaHvH社区前身是GTA联机组织（GTAIP），2018年正式入驻CSGO，现为CS2国服（完美世界）推荐的社区服务器，在这里你可以免费体验原版皮肤、手套、人物等饰品，更有不一样的地图、武器MOD、人物MOD，你从未玩过的船新版本等你体验。",
+      "buttons": {
+        "history": "社区发展历程",
+        "cs2Official": "CS2国服官网"
+      },
+      "cs2OfficialUrl": "https://csgo.wanmei.com/communityserver/?brandId=8&brandName=KOD%E7%A4%BE%E5%8C%BA"
+    }
+  },
+  "history": {
+    "title": "社区发展历程",
+    "subtitle": "陪年历程，感谢有你",
+    "yearMarkers": ["2019", "2020", "2021", "2023", "2024", "2025"],
+    "events": [
+      {
+        "date": "2019年11月11日",
+        "title": "正式入驻CSGO",
+        "description": "首发为GTAIP服务器创始人，正式推出CSGO社区"
+      },
+      {
+        "date": "2019年11月23日",
+        "title": "开始建设服务器",
+        "description": "首款HvH服务器上线，正式开始服务器建设"
+      },
+      {
+        "date": "2019年11月25日",
+        "title": "正式竞技",
+        "description": "正式推出KOD竞技服，并在CSGO竞技服里，从此服务端完成了第一次更新"
+      },
+      {
+        "date": "2020年11月21日",
+        "title": "合作共赢",
+        "description": "KodPlay社区与熊猫社区合作，成为了一个完整的多合作伙伴社区"
+      },
+      {
+        "date": "2021年1月21日",
+        "title": "普陀旗舰",
+        "description": "社区正式推出CSGO的普陀苹果社区服务器和商城功能"
+      },
+      {
+        "date": "2021年1月23日",
+        "title": "聚好的分开为好对重逢",
+        "description": "KodPlay社区与熊猫社区分一时段，KodPlay经历了集体重组过程"
+      },
+      {
+        "date": "2021年1月24日",
+        "title": "走上新征程",
+        "description": "KOD社区正式面向CSGO玩家开放，KodPlay在这个阶段迅速成长"
+      },
+      {
+        "date": "2021年1月27日",
+        "title": "全新启程",
+        "description": "KOD社区正式对所有CSGO玩家开放，注册人数破百万"
+      },
+      {
+        "date": "2021年11月18日",
+        "title": "服务未来",
+        "description": "KOD社区正式进入维护阶段并升级，注册人数破千万级别，日活玩家破万"
+      },
+      {
+        "date": "2023年1月1日",
+        "title": "天梯体系升级",
+        "description": "全面升级KOD的天梯赛事体系，全一个完美的体系模式"
+      },
+      {
+        "date": "2023年6月7日",
+        "title": "CS2来袭",
+        "description": "KOD社区第一个迎接CS2的到来并率先支持社区服务器模式"
+      },
+      {
+        "date": "2024年10月28日",
+        "title": "在线交易系统升级",
+        "description": "CS2KOD交易交易系统走进正式上线阶段并运行"
+      },
+      {
+        "date": "2024年10月30日",
+        "title": "换肤系统低运构",
+        "description": "CS2全新换肤系统上线，更多类型，更多功能"
+      },
+      {
+        "date": "2024年11月1日",
+        "title": "换肤系统开放",
+        "description": "全体玩家可获取并体验，特约订阅"
+      },
+      {
+        "date": "2024年11月2日",
+        "title": "VIP系统上线",
+        "description": "CS2提供高级会员系统，VIP可享更多服务，同时推出服务质量提升"
+      },
+      {
+        "date": "2025年4月6日",
+        "title": "战队系统上线",
+        "description": "开创战队友谊赛，建立自己的战队，拥有交流频道，团队合作功能"
+      },
+      {
+        "date": "2025年5月9日",
+        "title": "一展开来",
+        "description": "KodServer通过全面上线，一展开CS2的新奇玩法，多游戏模式，过程多玩法"
+      }
+    ]
+  }
+}
