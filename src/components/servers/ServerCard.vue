@@ -41,6 +41,12 @@
             :key="player.steam"
             class="player-item"
           >
+            <img
+              :src="player.avatarUrl || getDefaultAvatar()"
+              :alt="player.name"
+              class="player-avatar"
+              @error="handleImageError"
+            />
             <span class="player-name">{{ player.name }}</span>
           </div>
         </div>
@@ -90,8 +96,14 @@ import {
   LogInOutline,
   CopyOutline,
 } from "@vicons/ionicons5";
-import { computed, defineComponent, type PropType } from "vue";
-import { OnlinePlayer } from "../../api/server";
+import { computed, defineComponent, type PropType, watch } from "vue";
+
+// 更新 OnlinePlayer 接口定义
+interface OnlinePlayer {
+  steam: string;
+  name: string;
+  avatarUrl?: string; // 添加可选的 avatarUrl 属性
+}
 
 // 兼容旧的ServerProps接口
 interface ServerProps {
@@ -163,6 +175,68 @@ const getServerTypeClass = () => {
   }
   return "default-server";
 };
+
+// 头像相关函数
+const getDefaultAvatar = () => {
+  return "https://avatars.akamai.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_medium.jpg";
+};
+
+const handleImageError = (e: Event) => {
+  const target = e.target as HTMLImageElement;
+  if (target) {
+    target.src = getDefaultAvatar();
+  }
+};
+
+// Steam ID 转换函数
+function convertSteamIDToSteamID64(steamID: string): string {
+  const parts = steamID.split(":");
+  if (parts.length !== 3) return "";
+
+  const accountNumber = parseInt(parts[2]);
+  const steamID64 =
+    76561197960265728n + BigInt(accountNumber) * 2n + BigInt(parts[1]);
+  return steamID64.toString();
+}
+
+const fetchPlayerAvatar = async (player: OnlinePlayer) => {
+  const steamId64 = convertSteamIDToSteamID64(player.steam);
+  try {
+    const response = await fetch(`/steam-api/profiles/${steamId64}/?xml=1`);
+    const text = await response.text();
+    const parser = new DOMParser();
+    const xmlDoc = parser.parseFromString(text, "text/xml");
+    const avatarElement = xmlDoc.querySelector("avatarMedium");
+    player.avatarUrl = avatarElement?.textContent || getDefaultAvatar();
+  } catch (error) {
+    console.error("获取Steam头像失败:", error);
+    player.avatarUrl = getDefaultAvatar();
+  }
+};
+
+// 在线玩家列表渲染
+const initializePlayerAvatars = () => {
+  if (props.server.online) {
+    props.server.online.forEach((player) => {
+      if (!player.avatarUrl) {
+        player.avatarUrl = getDefaultAvatar();
+        // 在后台加载真实头像
+        fetchPlayerAvatar(player);
+      }
+    });
+  }
+};
+
+// 监听在线玩家列表变化
+watch(
+  () => props.server.online,
+  (newValue) => {
+    if (newValue) {
+      initializePlayerAvatars();
+    }
+  },
+  { immediate: true }
+);
 </script>
 
 <style scoped>
@@ -549,11 +623,26 @@ const getServerTypeClass = () => {
   background: rgba(255, 255, 255, 0.5);
   border-radius: 8px;
   transition: all 0.2s ease;
+  gap: 10px;
+}
+
+.player-avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1.5px solid rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
 }
 
 .player-item:hover {
   background: rgba(255, 255, 255, 0.7);
   transform: translateX(4px);
+}
+
+.player-item:hover .player-avatar {
+  border-color: #409eff;
+  transform: scale(1.05);
 }
 
 .player-name {
@@ -563,6 +652,7 @@ const getServerTypeClass = () => {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  flex: 1;
 }
 
 .copy-btn {
