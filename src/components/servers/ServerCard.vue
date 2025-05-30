@@ -70,12 +70,17 @@
         </template>
         连接服务器
       </n-button>
+      <n-button class="copy-btn" secondary circle @click="handleCopy">
+        <template #icon>
+          <n-icon><copy-outline /></n-icon>
+        </template>
+      </n-button>
     </div>
   </n-card>
 </template>
 
 <script setup lang="ts">
-import { NCard, NButton, NIcon, NTag, NScrollbar } from "naive-ui";
+import { NCard, NButton, NIcon, NTag, NScrollbar, useMessage } from "naive-ui";
 import {
   LocationOutline,
   MapOutline,
@@ -83,6 +88,7 @@ import {
   TimeOutline,
   StarOutline,
   LogInOutline,
+  CopyOutline,
 } from "@vicons/ionicons5";
 import { computed, defineComponent, type PropType } from "vue";
 import { OnlinePlayer } from "../../api/server";
@@ -106,6 +112,8 @@ const props = defineProps<{
   server: ServerProps;
 }>();
 
+const message = useMessage();
+
 // 计算服务器是否在线（有玩家或明确标记为在线）
 const isServerOnline = computed(() => {
   return (
@@ -118,6 +126,18 @@ const handleConnect = () => {
   if (props.server.port) {
     const serverAddress = `steam://connect/teahvh.cc:${props.server.port}`;
     window.location.href = serverAddress;
+  }
+};
+
+const handleCopy = async () => {
+  if (props.server.port) {
+    const serverAddress = `connect teahvh.cc:${props.server.port}`;
+    try {
+      await navigator.clipboard.writeText(serverAddress);
+      message.success("服务器连接信息已复制到剪贴板");
+    } catch (err) {
+      message.error("复制失败，请手动复制");
+    }
   }
 };
 
@@ -543,6 +563,19 @@ const getServerTypeClass = () => {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.copy-btn {
+  margin-left: 12px;
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(4px);
+  transition: all 0.3s ease;
+  color: rgba(0, 0, 0, 0.75);
+}
+
+.copy-btn:hover {
+  background: rgba(255, 255, 255, 0.7);
+  transform: scale(1.1);
 }
 
 @media (max-width: 768px) {
