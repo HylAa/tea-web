@@ -144,11 +144,44 @@ const handleConnect = () => {
 const handleCopy = async () => {
   if (props.server.port) {
     const serverAddress = `connect teahvh.cc:${props.server.port}`;
+
+    // 创建一个临时的文本区域元素
+    const textArea = document.createElement("textarea");
+    textArea.value = serverAddress;
+
+    // 设置样式使其不可见
+    textArea.style.position = "fixed";
+    textArea.style.left = "-9999px";
+    textArea.style.top = "0";
+    textArea.style.opacity = "0";
+
+    document.body.appendChild(textArea);
+
     try {
-      await navigator.clipboard.writeText(serverAddress);
-      message.success("服务器连接信息已复制到剪贴板");
+      // 优先使用现代 Clipboard API
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(serverAddress);
+        message.success("服务器连接信息已复制到剪贴板");
+      } else {
+        // 回退到传统方法
+        textArea.select();
+        const successful = document.execCommand("copy");
+        if (successful) {
+          message.success("服务器连接信息已复制到剪贴板");
+        } else {
+          message.info("请按 Ctrl+C 复制服务器连接信息");
+          // 选中文本以便用户手动复制
+          textArea.select();
+        }
+      }
     } catch (err) {
-      message.error("复制失败，请手动复制");
+      console.error("复制失败:", err);
+      message.info("请按 Ctrl+C 复制服务器连接信息");
+      // 选中文本以便用户手动复制
+      textArea.select();
+    } finally {
+      // 清理临时元素
+      document.body.removeChild(textArea);
     }
   }
 };
