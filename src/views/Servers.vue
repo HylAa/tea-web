@@ -87,9 +87,7 @@ import {
   NSwitch,
   NSpin,
   NEmpty,
-  NPagination,
   NIcon,
-  useMessage,
 } from "naive-ui";
 import { SearchOutline } from "@vicons/ionicons5";
 import { serverApi } from "../api";
@@ -104,8 +102,6 @@ defineOptions({
   name: "ServersPage",
 });
 
-const message = useMessage();
-
 // 过滤和搜索状态
 const searchQuery = ref("");
 const regionFilter = ref<string | null>(null);
@@ -117,12 +113,6 @@ const pageSize = ref(8);
 const servers = ref<ServerInfo[]>([]);
 
 // 选项数据
-const regionOptions = [
-  { label: "上海", value: "上海" },
-  { label: "北京", value: "北京" },
-  { label: "香港", value: "香港" },
-  { label: "美国", value: "美国" },
-];
 
 // 地图选项将从API获取的数据中动态生成
 const mapOptions = computed(() => {
@@ -304,36 +294,7 @@ const filteredServers = computed(() => {
   return result.slice(start, end);
 });
 
-// 总页数
-const totalPages = computed(() => {
-  const filteredTotal = servers.value.filter((server) => {
-    // 应用所有过滤条件，除了分页
-    let match = true;
-
-    if (searchQuery.value) {
-      match =
-        match &&
-        server.name.toLowerCase().includes(searchQuery.value.toLowerCase());
-    }
-
-    if (regionFilter.value) {
-      match =
-        match && (server.location?.includes(regionFilter.value || "") || false);
-    }
-
-    if (mapFilter.value) {
-      match = match && server.map === mapFilter.value;
-    }
-
-    if (onlineOnly.value) {
-      match = match && server.players > 0;
-    }
-
-    return match;
-  }).length;
-
-  return Math.ceil(filteredTotal / pageSize.value);
-});
+// 总页数已被注释，相关分页功能暂时禁用
 
 // 组件挂载时启动定时器
 onMounted(() => {
@@ -359,6 +320,7 @@ onUnmounted(() => {
   padding: 40px;
   max-width: 1200px;
   margin: 0 auto;
+  min-height: calc(100vh - 64px);
 }
 
 .page-header {

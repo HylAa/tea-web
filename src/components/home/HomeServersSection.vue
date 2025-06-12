@@ -59,36 +59,36 @@ const fetchServers = async () => {
       {
         port: 27025,
         name: "【茶】🔩 干拉魔怔 #1",
-        location: "上海BGP",
-        map: "de_dust2",
-        players: 10,
+        location: "枣庄BGP",
+        map: "de_mirage",
+        players: 0,
         bots: 0,
-        maxplayers: 24,
-        ping: 3,
+        maxplayers: 32,
+        ping: 0,
         features: ["Double Tap", "No Spread", "Rapid Fire"],
         online: [],
       },
       {
         port: 27030,
         name: "【茶】🏹 鸟狙魔怔 #1",
-        location: "北京BGP",
+        location: "枣庄BGP",
         map: "de_mirage",
-        players: 12,
+        players: 0,
         bots: 0,
-        maxplayers: 24,
-        ping: 3,
+        maxplayers: 32,
+        ping: 0,
         features: ["Double Tap", "Rapid Fire"],
         online: [],
       },
       {
         port: 27040,
         name: "【茶】🚀 鸟狙爆头 #1 ",
-        location: "香港BGP",
-        map: "de_inferno",
-        players: 18,
+        location: "枣庄BGP",
+        map: "de_mirage",
+        players: 0,
         bots: 0,
-        maxplayers: 20,
-        ping: 3,
+        maxplayers: 32,
+        ping: 0,
         features: ["No Spread", "Competitive"],
         online: [],
       },
@@ -145,7 +145,7 @@ onMounted(async () => {
 
 <style scoped>
 .servers-section {
-  background-color: #f5f5f5;
+  background-color: var(--bg-color);
   width: 100%;
   min-height: 100vh;
   display: flex;
@@ -171,6 +171,7 @@ onMounted(async () => {
   margin-bottom: 12px;
   position: relative;
   display: inline-block;
+  color: var(--text-color);
 }
 
 .section-title::after {
@@ -186,7 +187,7 @@ onMounted(async () => {
 
 .section-subtitle {
   font-size: 18px;
-  color: #666;
+  color: var(--text-color-secondary);
   margin-top: 16px;
 }
 
@@ -212,7 +213,7 @@ onMounted(async () => {
 }
 
 .loading-container p {
-  color: #666;
+  color: var(--text-color-secondary);
 }
 
 .view-all-container {

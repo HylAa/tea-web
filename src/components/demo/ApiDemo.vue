@@ -74,7 +74,6 @@ import {
   NTable,
   useMessage,
 } from "naive-ui";
-import { userApi } from "../../api";
 
 defineOptions({
   name: "ApiDemo",

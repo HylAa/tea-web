@@ -59,7 +59,6 @@ import {
   NEmpty,
   NIcon,
   NDataTable,
-  NTag,
   NButton,
   useMessage,
 } from "naive-ui";
@@ -67,7 +66,6 @@ import {
   SearchOutline,
   TrophyOutline,
   TimeOutline,
-  PersonOutline,
   LogoSteam,
 } from "@vicons/ionicons5";
 import { levelrankApi } from "../api";
@@ -171,18 +169,18 @@ const columns: DataTableColumns<ExtendedPlayerRank> = [
           h("img", {
             src: row.avatarUrl || getDefaultAvatar(),
             alt: row.nickname,
-            class: "player-avatar",
+            class: "player-avatar clickable",
             style: {
               width: "36px",
               height: "36px",
               minWidth: "36px",
               borderRadius: "50%",
               objectFit: "cover",
-              border: "2px solid rgba(255, 255, 255, 0.1)",
-              transition: "all 0.3s ease",
-              boxShadow: "0 2px 6px rgba(0, 0, 0, 0.1)",
+              cursor: "pointer",
             },
             onError: handleImageError,
+            onClick: () => openSteamProfile(row.steam),
+            title: "点击查看Steam主页",
           }),
           h(
             "span",
@@ -190,7 +188,7 @@ const columns: DataTableColumns<ExtendedPlayerRank> = [
               class: "nickname",
               style: {
                 fontWeight: "500",
-                color: "#000",
+                color: "var(--text-color)",
                 fontSize: "14px",
                 overflow: "hidden",
                 textOverflow: "ellipsis",
@@ -405,6 +403,14 @@ watch(limit, () => {
   fetchRankings();
 });
 
+// 打开Steam主页
+const openSteamProfile = (steamId: string) => {
+  const steamId64 = convertSteamIDToSteamID64(steamId);
+  if (steamId64) {
+    window.open(`https://steamcommunity.com/profiles/${steamId64}`, '_blank');
+  }
+};
+
 // 组件挂载时获取数据
 onMounted(() => {
   fetchRankings();
@@ -427,6 +433,7 @@ function convertSteamIDToSteamID64(steamID: string): string {
   padding: 40px;
   max-width: 1200px;
   margin: 0 auto;
+  min-height: calc(100vh - 64px);
 }
 
 .page-header {
@@ -536,7 +543,7 @@ function convertSteamIDToSteamID64(steamID: string): string {
 }
 
 :deep(.player-name:hover) {
-  background: rgba(255, 255, 255, 0.1);
+  background: transparent;
 }
 
 :deep(.player-avatar) {
@@ -549,6 +556,12 @@ function convertSteamIDToSteamID64(steamID: string): string {
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
+:deep(.player-avatar.clickable:hover) {
+  transform: scale(1.1);
+  border-color: #409eff;
+  box-shadow: 0 4px 12px rgba(64, 158, 255, 0.3);
+}
+
 :deep(.player-name:hover .player-avatar) {
   border-color: #409eff;
   transform: scale(1.05);
@@ -556,13 +569,13 @@ function convertSteamIDToSteamID64(steamID: string): string {
 
 :deep(.nickname) {
   font-weight: 500;
-  color: #fff;
+  color: var(--text-color);
   font-size: 14px;
   transition: color 0.3s ease;
 }
 
 :deep(.player-name:hover .nickname) {
-  color: #409eff;
+  color: var(--text-color);
 }
 
 :deep(.score-value) {

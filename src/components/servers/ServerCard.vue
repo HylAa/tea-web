@@ -44,8 +44,10 @@
             <img
               :src="player.avatarUrl || getDefaultAvatar()"
               :alt="player.name"
-              class="player-avatar"
+              class="player-avatar clickable"
               @error="handleImageError"
+              @click="openSteamProfile(player.steam)"
+              title="点击查看Steam主页"
             />
             <span class="player-name">{{ player.name }}</span>
           </div>
@@ -86,17 +88,15 @@
 </template>
 
 <script setup lang="ts">
-import { NCard, NButton, NIcon, NTag, NScrollbar, useMessage } from "naive-ui";
+import { NCard, NButton, NIcon, NScrollbar, useMessage } from "naive-ui";
 import {
-  LocationOutline,
-  MapOutline,
   PeopleOutline,
   TimeOutline,
-  StarOutline,
-  LogInOutline,
   CopyOutline,
+  MapOutline,
+  LogInOutline,
 } from "@vicons/ionicons5";
-import { computed, defineComponent, type PropType, watch } from "vue";
+import { computed, watch } from "vue";
 
 // 更新 OnlinePlayer 接口定义
 interface OnlinePlayer {
@@ -247,6 +247,14 @@ const fetchPlayerAvatar = async (player: OnlinePlayer) => {
   }
 };
 
+// 打开Steam主页
+const openSteamProfile = (steamId: string) => {
+  const steamId64 = convertSteamIDToSteamID64(steamId);
+  if (steamId64) {
+    window.open(`https://steamcommunity.com/profiles/${steamId64}`, '_blank');
+  }
+};
+
 // 在线玩家列表渲染
 const initializePlayerAvatars = () => {
   if (props.server.online) {
@@ -285,7 +293,7 @@ watch(
   flex-direction: column;
 }
 
-.server-card :deep(.n-card__content) {
+/* .server-card :deep(.n-card__content) {
   padding: 20px 24px;
   color: #000;
   position: relative;
@@ -294,18 +302,45 @@ watch(
   height: 100%;
   display: flex;
   flex-direction: column;
+} */
+
+/* 浅色模式 - 深色盒子 */
+.server-card :deep(.n-card__content) {
+  position: relative;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.1) !important;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  /* box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15), 0 0 30px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2); */
+  /* backdrop-filter: blur(12px); */
+  /* box-shadow: 0 0 50px 10px rgba(255, 0, 0, 1) !important; */
+  transition: all 0.3s ease;
 }
 
-.server-card :deep(.n-card__content)::before {
+/* .server-card :deep(.n-card__content)::after {
   content: "";
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
+  background: rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(12px);
+  transition: all 0.3s ease;
+  z-index: 10;
+  box-shadow: 0 0 50px 10px rgba(255, 0, 0, 1) !important;
+} */
+
+/* .server-card :deep(.n-card__content)::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at center, rgba(0, 0, 0, 0.1), transparent 70%);
+  transition: all 0.3s ease;
   z-index: -1;
-  backdrop-filter: blur(8px);
-}
+} */
 
 /* 添加过渡效果 */
 .server-details,
@@ -366,133 +401,116 @@ watch(
   }
 }
 
-/* 在线玩家区域的过渡 */
-.online-players {
+/* 在线玩家区域的过渡 - 浅色模式深色盒子 */
+/* .online-players {
   margin: 16px 0;
-  background: rgba(255, 255, 255, 0.5);
+  background: rgba(0, 0, 0, 0.9);
   border-radius: 12px;
   padding: 16px;
-  backdrop-filter: blur(4px);
+  backdrop-filter: blur(6px);
   flex: 1;
   min-height: 166px;
   display: flex;
   flex-direction: column;
   transition: all 0.3s ease;
-}
+} */
 
-/* 数据更新时的渐变效果 */
 .detail-item {
-  position: relative;
-  overflow: hidden;
-}
-
-.detail-item span {
   transition: opacity 0.3s ease;
 }
 
-.detail-item::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.2),
-    transparent
-  );
-  transform: translateX(-100%);
-  animation: shimmer 1.5s infinite;
+/* 确保深色模式下生效 */
+html.dark .server-card :deep(.n-card__content) {
+  background: rgba(255, 255, 255, 0.1) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  color: rgba(255, 255, 255, 0.9) !important;
+  box-shadow: 0 8px 32px rgba(255, 255, 255, 0.05) !important;
 }
 
-@keyframes shimmer {
-  100% {
-    transform: translateX(100%);
-  }
+/* 最高优先级覆盖 */
+/* :global(.dark) .server-card :deep(.n-card__content) {
+  background: rgba(255, 255, 255, 0.1) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  color: rgba(255, 255, 255, 0.9) !important;
+  box-shadow: 0 8px 32px rgba(255, 255, 255, 0.05) !important;
+} */
+
+html.dark .server-card :deep(.n-card__content)::before {
+  background: rgba(255, 255, 255, 0.05) !important;
+  box-shadow: 0 0 30px rgba(255, 255, 255, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
 }
 
-/* 默认服务器 - 清新蓝 */
-.default-server :deep(.n-card__content) {
-  background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+html.dark .server-card :deep(.n-card__content)::after {
+  background: radial-gradient(circle at center, rgba(255, 255, 255, 0.05), transparent 70%) !important;
 }
 
-.default-server :deep(.n-card__content)::before {
-  background: linear-gradient(
-    135deg,
-    rgba(227, 242, 253, 0.95),
-    rgba(187, 222, 251, 0.95)
-  );
+html.dark .online-players {
+  background: rgba(255, 255, 255, 0.05) !important;
 }
 
-.default-server:hover :deep(.n-card__content) {
-  background: linear-gradient(135deg, #bbdefb, #90caf9);
+html.dark .server-details {
+  background: rgba(255, 255, 255, 0.05) !important;
 }
 
-/* 竞技服务器 - 玫瑰红 */
-.competitive-server :deep(.n-card__content) {
-  background: linear-gradient(135deg, #ffeeff, #ffd6d6);
+html.dark .feature-tag {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  color: rgba(255, 255, 255, 0.8) !important;
 }
 
-.competitive-server :deep(.n-card__content)::before {
-  background: linear-gradient(
-    135deg,
-    rgba(255, 238, 255, 0.95),
-    rgba(255, 214, 214, 0.95)
-  );
+html.dark .server-name {
+  color: #ffffff !important;
 }
 
-.competitive-server:hover :deep(.n-card__content) {
-  background: linear-gradient(135deg, #ffd6d6, #ffc1c1);
+html.dark .server-location {
+  color: rgba(255, 255, 255, 0.6) !important;
 }
 
-/* 休闲服务器 - 薄荷绿 */
-.casual-server :deep(.n-card__content) {
-  background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+html.dark .detail-item {
+  color: rgba(255, 255, 255, 0.75) !important;
 }
 
-.casual-server :deep(.n-card__content)::before {
-  background: linear-gradient(
-    135deg,
-    rgba(232, 245, 233, 0.95),
-    rgba(200, 230, 201, 0.95)
-  );
+html.dark .section-title {
+  color: rgba(255, 255, 255, 0.75) !important;
 }
 
-.casual-server:hover :deep(.n-card__content) {
-  background: linear-gradient(135deg, #c8e6c9, #a5d6a7);
+html.dark .player-name {
+  color: rgba(255, 255, 255, 0.75) !important;
 }
 
-/* 训练服务器 - 温暖橙 */
-.training-server :deep(.n-card__content) {
-  background: linear-gradient(135deg, #fff3e0, #ffe0b2);
+html.dark .player-item {
+  background: rgba(255, 255, 255, 0.05) !important;
 }
 
-.training-server :deep(.n-card__content)::before {
-  background: linear-gradient(
-    135deg,
-    rgba(255, 243, 224, 0.95),
-    rgba(255, 224, 178, 0.95)
-  );
+html.dark .player-item:hover {
+  background: rgba(255, 255, 255, 0.1) !important;
 }
 
-.training-server:hover :deep(.n-card__content) {
-  background: linear-gradient(135deg, #ffe0b2, #ffcc80);
+html.dark .copy-btn {
+  background: rgba(255, 255, 255, 0.1) !important;
+  color: rgba(255, 255, 255, 0.75) !important;
 }
 
-/* 社区服务器 - 梦幻紫 */
-.community-server :deep(.n-card__content) {
-  background: linear-gradient(135deg, #f3e5f5, #e1bee7);
-}
-
-.community-server:hover :deep(.n-card__content) {
-  background: linear-gradient(135deg, #e1bee7, #ce93d8);
+html.dark .copy-btn:hover {
+  background: rgba(255, 255, 255, 0.15) !important;
 }
 
 .server-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
+}
+
+/* 浅色模式悬停效果 */
+.server-card:hover :deep(.n-card__content) {
+  background: rgba(0, 0, 0, 0.2) !important;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15), 0 0 30px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+/* 深色模式悬停效果 */
+html.dark .server-card:hover :deep(.n-card__content) {
+  background: rgba(255, 255, 255, 0.15) !important;
+  box-shadow: 0 12px 40px rgba(255, 255, 255, 0.1), 0 0 30px rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .server-header {
@@ -538,10 +556,10 @@ watch(
   display: flex;
   justify-content: space-between;
   margin-bottom: 16px;
-  background: rgba(255, 255, 255, 0.5);
+  background: rgba(0, 0, 0, 0.1);
   padding: 12px;
   border-radius: 12px;
-  backdrop-filter: blur(4px);
+  backdrop-filter: blur(6px);
 }
 
 .detail-item {
@@ -573,11 +591,11 @@ watch(
 }
 
 .feature-tag {
-  background: rgba(255, 255, 255, 0.5);
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  color: rgba(0, 0, 0, 0.75);
+  background: rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  color: rgba(0, 0, 0, 0.8);
   font-weight: 500;
-  backdrop-filter: blur(4px);
+  backdrop-filter: blur(6px);
 }
 
 .server-actions {
@@ -622,10 +640,10 @@ watch(
 
 .online-players {
   margin: 16px 0;
-  background: rgba(255, 255, 255, 0.5);
+  background: rgba(0, 0, 0, 0.05);
   border-radius: 12px;
   padding: 16px;
-  backdrop-filter: blur(4px);
+  /* backdrop-filter: blur(4px); */
   flex: 1;
   min-height: 156px;
   display: flex;
@@ -666,6 +684,16 @@ watch(
   object-fit: cover;
   border: 1.5px solid rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
+}
+
+.player-avatar.clickable {
+  cursor: pointer;
+}
+
+.player-avatar.clickable:hover {
+  border-color: #409eff;
+  transform: scale(1.1);
+  box-shadow: 0 0 8px rgba(64, 158, 255, 0.3);
 }
 
 .player-item:hover {

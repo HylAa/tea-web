@@ -17,26 +17,6 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("../views/Servers.vue"),
   },
   {
-    path: "/ads",
-    name: "Ads",
-    component: () => import("../views/Ads.vue"),
-  },
-  {
-    path: "/shop",
-    name: "Shop",
-    component: () => import("../views/Shop.vue"),
-  },
-  {
-    path: "/market",
-    name: "Market",
-    component: () => import("../views/Market.vue"),
-  },
-  {
-    path: "/workshop",
-    name: "Workshop",
-    component: () => import("../views/Workshop.vue"),
-  },
-  {
     path: "/team",
     name: "Team",
     component: () => import("../views/Team.vue"),

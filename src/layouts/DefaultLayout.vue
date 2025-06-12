@@ -1,9 +1,8 @@
 <template>
-  <n-layout position="absolute" class="layout-container">
+  <n-layout class="layout-container">
     <n-layout-header
       bordered
       class="header"
-      :style="{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 1000 }"
     >
       <div class="logo-container">
         <img src="/logo.png" alt="Logo" class="logo" />
@@ -19,6 +18,7 @@
         />
       </div>
       <div class="user-actions">
+        <theme-toggle />
         <n-button
           quaternary
           circle
@@ -192,10 +192,6 @@ import {
   NDrawer,
   NDrawerContent,
   NSpin,
-  NEmpty,
-  NCarousel,
-  NCarouselItem,
-  useMessage,
   NTimeline,
   NTimelineItem,
 } from "naive-ui";
@@ -203,28 +199,16 @@ import { RouterLink, useRoute } from "vue-router";
 import {
   HomeOutline,
   PeopleOutline,
-  InformationCircleOutline,
   NotificationsOutline,
-  LogOutOutline,
-  SettingsOutline,
-  PersonOutline,
   PodiumOutline,
   ServerOutline,
-  BagOutline,
-  CartOutline,
-  SwapHorizontalOutline,
-  BrushOutline,
-  LogoSteam,
   LogoGithub,
-  LogoTux,
-  LogoFacebook,
-  LogoTwitter,
-  LogoYoutube,
-  LogoDiscord,
+  LogoSteam,
 } from "@vicons/ionicons5";
 import { announcementApi } from "../api";
 import { Announcement } from "../api/announcement";
 import QQIcon from "../components/icons/QQIcon.vue";
+import ThemeToggle from "../components/ThemeToggle.vue";
 
 function renderIcon(icon: any) {
   return () => h(NIcon, null, { default: () => h(icon) });
@@ -358,27 +342,7 @@ const menuOptions = [
   },
 ];
 
-const userOptions = [
-  {
-    label: "个人信息",
-    key: "profile",
-    icon: renderIcon(PersonOutline),
-  },
-  {
-    label: "设置",
-    key: "settings",
-    icon: renderIcon(SettingsOutline),
-  },
-  {
-    type: "divider",
-    key: "divider",
-  },
-  {
-    label: "退出登录",
-    key: "logout",
-    icon: renderIcon(LogOutOutline),
-  },
-];
+
 
 const handleLogin = () => {
   // 这里添加Steam登录逻辑
@@ -386,11 +350,10 @@ const handleLogin = () => {
 };
 
 // 通知公告相关
-const message = useMessage();
 const showAnnouncement = ref(false);
 const announcementLoading = ref(false);
 const announcements = ref<Announcement[]>([]);
-const currentAnnouncement = ref<Announcement | null>(null);
+
 
 // 获取公告
 const fetchAnnouncements = async () => {
@@ -404,10 +367,7 @@ const fetchAnnouncements = async () => {
   }
 };
 
-// 处理公告轮播切换
-const handleAnnouncementChange = (index: number) => {
-  currentAnnouncement.value = announcements.value[index];
-};
+
 
 // 组件挂载时获取公告
 onMounted(() => {
@@ -420,6 +380,9 @@ onMounted(() => {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  width: 100%;
+  overflow-x: hidden;
+  position: relative;
 }
 
 .header {
@@ -429,24 +392,17 @@ onMounted(() => {
   align-items: center;
   justify-content: space-between;
   overflow: visible;
-  background-color: #fff;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background-color: var(--header-bg);
+  box-shadow: 0 2px 8px var(--shadow-color);
   width: 100%;
-  z-index: 1000;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
+  border-bottom: 1px solid var(--border-color);
 }
 
 .content {
-  padding-top: 64px; /* 为固定的header腾出空间 */
-
   flex: 1; /* 占用所有可用空间 */
   display: flex;
   flex-direction: column;
   position: relative;
-  z-index: 1;
 }
 
 .logo-container {
@@ -514,13 +470,42 @@ onMounted(() => {
 .logo-text {
   font-size: 16px;
   font-weight: bold;
-  color: #333;
+  color: var(--text-color);
 }
 
 .logo-subtitle {
   font-size: 12px;
-  color: #666;
+  color: var(--text-color-secondary);
   margin-left: 8px;
+}
+
+/* 深色模式下页眉字体全部使用白色 */
+:global(.dark) .header {
+  color: #ffffff;
+}
+
+:global(.dark) .logo-text {
+  color: #ffffff !important;
+}
+
+:global(.dark) .logo-subtitle {
+  color: #ffffff !important;
+}
+
+:global(.dark) .header :deep(.n-menu-item) {
+  color: #ffffff !important;
+}
+
+:global(.dark) .header :deep(.n-menu-item-content) {
+  color: #ffffff !important;
+}
+
+:global(.dark) .header :deep(.n-menu-item-content-header) {
+  color: #ffffff !important;
+}
+
+:global(.dark) .header :deep(.n-icon) {
+  color: #ffffff !important;
 }
 
 .user-actions {
@@ -543,7 +528,7 @@ onMounted(() => {
 .footer {
   padding: 0;
   color: #fff;
-  background-color: #18181c;
+  background-color: var(--footer-bg);
   display: flex;
   flex-direction: column;
   font-size: 14px;

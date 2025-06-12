@@ -42,8 +42,10 @@
                     <img
                       :src="player.avatarUrl || getDefaultAvatar()"
                       :alt="player.nickname"
-                      class="player-avatar"
+                      class="player-avatar clickable"
                       @error="handleImageError"
+                      @click="openSteamProfile(player.steam)"
+                      title="点击查看Steam主页"
                     />
                     <span class="player-name">{{ player.nickname }}</span>
                   </div>
@@ -134,11 +136,6 @@ const handleImageError = (e: Event) => {
   }
 };
 
-const getPlayerAvatar = (steamId64: string) => {
-  // 使用 Steam 的头像 URL 格式
-  return `https://avatars.akamai.steamstatic.com/${steamId64}_medium.jpg`;
-};
-
 // Steam ID 转换函数
 function convertSteamIDToSteamID64(steamID: string): string {
   const parts = steamID.split(":");
@@ -190,6 +187,14 @@ const viewAllRankings = () => {
   router.push("/ranking");
 };
 
+// 打开Steam主页
+const openSteamProfile = (steamId: string) => {
+  const steamId64 = convertSteamIDToSteamID64(steamId);
+  if (steamId64) {
+    window.open(`https://steamcommunity.com/profiles/${steamId64}`, '_blank');
+  }
+};
+
 onMounted(() => {
   fetchRankings();
 });
@@ -197,7 +202,7 @@ onMounted(() => {
 
 <style scoped>
 .ranking-section {
-  background-color: #fff;
+  background-color: var(--bg-color);
   width: 100%;
   min-height: 100vh;
   display: flex;
@@ -213,23 +218,24 @@ onMounted(() => {
 }
 
 .ranking-tabs {
-  background-color: #fff;
+  background-color: var(--card-bg);
   border-radius: 8px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 20px var(--shadow-color);
   overflow: hidden;
+  border: 1px solid var(--border-color);
 }
 
 .tab-header {
   display: flex;
-  border-bottom: 1px solid #e0e0e0;
-  background-color: #f5f7fa;
+  border-bottom: 1px solid var(--border-color);
+  background-color: var(--bg-color-secondary);
 }
 
 .tab-item {
   padding: 16px 24px;
   font-size: 16px;
   font-weight: 500;
-  color: #666;
+  color: var(--text-color-secondary);
   cursor: pointer;
   border-bottom: 2px solid transparent;
   transition: all 0.3s;
@@ -238,7 +244,7 @@ onMounted(() => {
 .tab-item.active {
   color: #4080ff;
   border-bottom-color: #4080ff;
-  background-color: #fff;
+  background-color: var(--bg-color);
 }
 
 .tab-item:hover:not(.active) {
@@ -258,14 +264,15 @@ onMounted(() => {
 .ranking-table th {
   padding: 12px 16px;
   text-align: left;
-  color: #666;
+  color: var(--text-color-secondary);
   font-weight: 500;
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid var(--border-color);
 }
 
 .ranking-table td {
   padding: 12px 16px;
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid var(--border-color);
+  color: var(--text-color);
 }
 
 .ranking-table tr:last-child td {
@@ -273,7 +280,7 @@ onMounted(() => {
 }
 
 .ranking-table tr:hover {
-  background-color: #f5f7fa;
+  background-color: var(--bg-color-secondary);
 }
 
 .rank-col {
@@ -337,6 +344,19 @@ onMounted(() => {
   height: 32px;
   border-radius: 50%;
   margin-right: 12px;
+  object-fit: cover;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.player-avatar.clickable {
+  cursor: pointer;
+}
+
+.player-avatar.clickable:hover {
+  transform: scale(1.1);
+  border-color: #409eff;
+  box-shadow: 0 4px 12px rgba(64, 158, 255, 0.3);
 }
 
 .player-name {

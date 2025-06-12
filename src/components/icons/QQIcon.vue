@@ -4,7 +4,6 @@
     viewBox="0 0 24 24"
     :width="size"
     :height="size"
-    :style="{ color: color }"
   >
     <path
       fill="currentColor"
@@ -21,10 +20,7 @@ export default {
       type: [Number, String],
       default: 24,
     },
-    color: {
-      type: String,
-      default: "rgb(170 170 170);", // 灰白色
-    },
+
   },
 };
 </script>
