@@ -13,14 +13,9 @@ export async function loadTextConfig(): Promise<TextConfig> {
       throw new Error("Failed to load text configuration");
     }
     cachedConfig = await response.json();
-    return cachedConfig;
+    return cachedConfig as TextConfig;
   } catch (error) {
     console.error("Error loading text configuration:", error);
     throw error;
   }
-}
-
-// 提供一个重新加载配置的方法，用于在配置文件更改后刷新
-export function clearConfigCache() {
-  cachedConfig = null;
 }

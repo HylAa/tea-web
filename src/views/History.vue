@@ -99,7 +99,7 @@ onMounted(async () => {
   width: 100%;
   min-height: 100vh;
   padding: 80px 20px;
-  background-color: #f0f2f5;
+  background-color: var(--bg-color, #f0f2f5);
   position: relative;
   overflow: hidden;
 }
@@ -144,7 +144,7 @@ onMounted(async () => {
 .page-title {
   font-size: 42px;
   font-weight: bold;
-  color: #333;
+  color: var(--text-color, #333);
   margin-bottom: 16px;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   letter-spacing: 2px;
@@ -160,7 +160,7 @@ onMounted(async () => {
 
 .page-subtitle {
   font-size: 20px;
-  color: #555;
+  color: var(--text-color-secondary, #555);
   font-weight: 300;
   max-width: 600px;
   margin: 0 auto;
@@ -182,7 +182,7 @@ onMounted(async () => {
 .year-marker {
   font-size: 32px;
   font-weight: bold;
-  color: rgba(64, 128, 255, 0.3);
+  color: var(--accent-color-light, rgba(64, 128, 255, 0.3));
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
 }
@@ -313,12 +313,12 @@ onMounted(async () => {
 
 .timeline-content {
   padding: 25px 30px;
-  background-color: white;
+  background-color: var(--card-bg, white);
   border-radius: 10px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 10px 30px var(--shadow-color, rgba(0, 0, 0, 0.08));
   position: relative;
   transition: all 0.3s ease;
-  border: 1px solid rgba(230, 235, 245, 0.8);
+  border: 1px solid var(--border-color, rgba(230, 235, 245, 0.8));
 }
 
 .timeline-content:hover {
@@ -329,7 +329,7 @@ onMounted(async () => {
 .timeline-content h3 {
   font-size: 22px;
   font-weight: bold;
-  color: #333;
+  color: var(--text-color, #333);
   margin-bottom: 12px;
   position: relative;
   padding-bottom: 12px;
@@ -347,7 +347,7 @@ onMounted(async () => {
 }
 
 .timeline-content p {
-  color: #666;
+  color: var(--text-color-secondary, #666);
   font-size: 16px;
   line-height: 1.6;
   margin: 0;

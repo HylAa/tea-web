@@ -41,7 +41,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
-import { NGrid, NGridItem, NIcon, NButton } from "naive-ui";
+import { NGrid, NGridItem, NIcon } from "naive-ui";
 import {
   ShieldOutline,
   CodeWorkingOutline,
@@ -85,12 +85,7 @@ onMounted(async () => {
 .advantage-section {
   width: 100%;
   height: 100vh;
-  background: linear-gradient(
-    15deg,
-    #232f3e 0%,
-    /* 深海蓝（信任感）*/ #1a3a5f 30%,
-    /* 科技蓝 */ #0c2d4d 100% /* 星空蓝 */
-  );
+  background: linear-gradient(15deg, #232f3e 0%,  #1a3a5f 30%, #0c2d4d 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -107,7 +102,6 @@ onMounted(async () => {
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: url("/images/advantage-bg.jpg");
   background-size: cover;
   background-position: center;
   opacity: 0.2;
@@ -214,5 +208,11 @@ onMounted(async () => {
     opacity: 1;
     transform: translateY(0);
   }
+}
+</style>
+
+<style>
+html.dark .advantage-section {
+  background: linear-gradient(73deg, #101010 40%, #252525 60%) !important;
 }
 </style>

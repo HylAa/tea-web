@@ -153,7 +153,7 @@ onMounted(() => {
     // 添加鼠标滚轮事件监听
     document.addEventListener("wheel", handleWheel, { passive: false });
 
-    console.log("滚轮事件监听器已添加");
+    // console.log("滚轮事件监听器已添加");
   }, 500);
 });
 
@@ -166,31 +166,37 @@ onUnmounted(() => {
 
 <style scoped>
 .home {
-  width: 100%;
-  min-height: 100vh; /* 使用 min-height 而不是 height，允许内容扩展 */
-  position: relative;
   display: flex;
   flex-direction: column;
+  width: 100%;
+  min-height: 100vh;
+  overflow-x: hidden;
+  box-sizing: border-box;
 }
+
+
 
 .sections-container {
-  width: 100%;
-  flex: 1; /* 使用 flex 替代固定高度 */
+  flex: 1;
   overflow-y: auto;
-  scroll-snap-type: y proximity; /* 改为 proximity，让滚动更自然 */
-  scrollbar-width: none; /* Firefox */
+  overflow-x: hidden;
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-.sections-container::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, Edge */
-}
+
 
 .section {
   width: 100%;
   height: 100vh;
   scroll-snap-align: start;
   position: relative;
+  box-sizing: border-box;
 }
+
+
 
 .section-nav {
   position: fixed;

@@ -45,8 +45,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
-import { NIcon, NButton } from "naive-ui";
-import { FlameOutline } from "@vicons/ionicons5";
+import { NButton } from "naive-ui";
 import { useRouter } from "vue-router";
 import type { TextConfig } from "@/types/config";
 import { loadTextConfig } from "@/utils/config";
@@ -58,16 +57,8 @@ defineOptions({
 const router = useRouter();
 const textConfig = ref<TextConfig | null>(null);
 
-const viewAboutPage = () => {
-  router.push("/about");
-};
-
 const viewHistoryPage = () => {
   router.push("/history");
-};
-
-const viewCS2OfficialWebsite = () => {
-  window.open(textConfig.value?.about.card.cs2OfficialUrl, "_blank");
 };
 
 onMounted(async () => {
@@ -86,7 +77,7 @@ onMounted(async () => {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #f7f9fc;
+  background-color: var(--bg-color);
   padding: 0 20px;
 }
 
@@ -105,7 +96,7 @@ onMounted(async () => {
   font-size: 36px;
   font-weight: bold;
   margin-bottom: 16px;
-  color: #333;
+  color: var(--text-color);
 }
 
 .header-line {
@@ -117,7 +108,7 @@ onMounted(async () => {
 
 .section-subtitle {
   font-size: 18px;
-  color: #666;
+  color: var(--text-color-secondary);
   max-width: 600px;
   margin: 0 auto;
 }
@@ -127,12 +118,13 @@ onMounted(async () => {
 }
 
 .about-card {
-  background-color: #fff;
+  background-color: var(--card-bg);
   border-radius: 12px;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 30px var(--shadow-color);
   padding: 40px;
   position: relative;
   overflow: hidden;
+  border: 1px solid var(--border-color);
 }
 
 .card-icon {
@@ -142,7 +134,7 @@ onMounted(async () => {
 .card-title {
   font-size: 28px;
   font-weight: bold;
-  color: #333;
+  color: var(--text-color);
   margin-bottom: 20px;
 }
 
@@ -156,7 +148,7 @@ onMounted(async () => {
 .card-content {
   font-size: 16px;
   line-height: 1.8;
-  color: #555;
+  color: var(--text-color-secondary);
 }
 
 .card-content p {

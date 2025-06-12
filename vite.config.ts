@@ -12,16 +12,16 @@ export default defineConfig({
   },
   server: {
     proxy: {
-      // 将 /api 前缀的请求代理到目标服务器
-      "/api": {
-        target: "https://api.teahvh.cc",
-        changeOrigin: true,
-        // rewrite: (path) => path.replace(/^\/api/, ''), // 如果API路径不需要 /api 前缀，可以取消注释
-      },
+      // 将 /api 前缀的请求代理到目标服务器（后端已允许跨域，暂时注释）
+      // "/api": {
+      //   target: "https://api.teahvh.cc",
+      //   changeOrigin: true,
+      //   // rewrite: (path) => path.replace(/^/api/, ''), // 如果API路径不需要 /api 前缀，可以取消注释
+      // },
       "/steam-api": {
         target: "http://www.teahvh.cc",
         changeOrigin: true,
-        // rewrite: (path) => path.replace(/^\/steam-api/, ""),
+        rewrite: (path) => path.replace(/^\/steam-api/, ""),
       },
     },
   },

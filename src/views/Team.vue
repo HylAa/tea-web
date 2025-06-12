@@ -50,7 +50,7 @@
                     fallback-src="/images/team/default-avatar.jpg"
                   />
                 </div>
-                <div class="member-name">🌐 全栈开发总监</div>
+                <div class="member-name">🌐 前端开发总监</div>
                 <div class="member-role">Aliang</div>
               </div>
             </n-grid-item>
@@ -65,7 +65,7 @@
                     fallback-src="/images/team/default-avatar.jpg"
                   />
                 </div>
-                <div class="member-name">⚙️ 社区架构首席</div>
+                <div class="member-name">⚙️ 全栈架构首席</div>
                 <div class="member-role">Amb0rse</div>
               </div>
             </n-grid-item>
@@ -93,7 +93,6 @@ defineOptions({
 .team-section {
   width: 100%;
   height: 100vh;
-  background-image: url("/images/team-bg.jpg");
   background-size: cover;
   background-position: center;
   position: relative;
@@ -109,7 +108,7 @@ defineOptions({
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(73deg, #101010 40%, #252525 60%);
+  background: var(--overlay-bg);
   z-index: 1;
 }
 
@@ -141,7 +140,7 @@ defineOptions({
 
 .team-description {
   font-size: 16px;
-  color: rgba(255, 255, 255, 0.8);
+  color: var(--text-color-secondary);
   max-width: 700px;
   margin: 0 auto;
   line-height: 1.6;
@@ -154,15 +153,17 @@ defineOptions({
 .team-member {
   text-align: center;
   padding: 20px;
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: var(--card-bg);
   border-radius: 10px;
   backdrop-filter: blur(10px);
   transition: all 0.3s ease;
+  border: 1px solid var(--border-color);
 }
 
 .team-member:hover {
   transform: translateY(-5px);
-  background-color: rgba(255, 255, 255, 0.15);
+  background-color: var(--bg-color-secondary);
+  box-shadow: 0 8px 25px var(--shadow-color);
 }
 
 .member-avatar {
@@ -182,11 +183,12 @@ defineOptions({
   font-size: 18px;
   font-weight: bold;
   margin-bottom: 8px;
+  color: var(--text-color);
 }
 
 .member-role {
   font-size: 14px;
-  color: rgba(255, 255, 255, 0.7);
+  color: var(--text-color-secondary);
 }
 
 @keyframes fadeIn {
