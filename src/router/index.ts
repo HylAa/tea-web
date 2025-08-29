@@ -56,6 +56,11 @@ const routes: Array<RouteRecordRaw> = [
     name: "ApiDemo",
     component: () => import("../components/demo/ApiDemo.vue"),
   },
+  {
+    path: "/steam-callback",
+    name: "SteamCallback",
+    component: () => import("../views/SteamCallback.vue"),
+  },
 ];
 
 const router = createRouter({

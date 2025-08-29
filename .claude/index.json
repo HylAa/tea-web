@@ -1,0 +1,299 @@
+{
+  "timestamp": "2025-08-25T06:48:43.000Z",
+  "project": {
+    "name": "TeaHvh-Web",
+    "type": "Vue.js Frontend Application",
+    "description": "基于Vue 3 + TypeScript的现代化Web应用，为【茶】社游戏社区开发的前端项目",
+    "version": "0.0.0",
+    "framework": "Vue 3 + TypeScript + Vite"
+  },
+  "scan_coverage": {
+    "total_files_estimated": 45,
+    "scanned_files": 42,
+    "coverage_percentage": 93.3,
+    "scan_status": "completed",
+    "truncated": false
+  },
+  "root_documentation": {
+    "path": "./CLAUDE.md",
+    "status": "updated",
+    "last_modified": "2025-08-25T06:48:43.000Z"
+  },
+  "modules": [
+    {
+      "name": "API接口模块",
+      "path": "src/api/",
+      "type": "api",
+      "documentation": "src/api/CLAUDE.md",
+      "entry_points": [
+        "src/api/index.ts"
+      ],
+      "key_files": [
+        "src/api/user.ts",
+        "src/api/server.ts", 
+        "src/api/announcement.ts",
+        "src/api/levelrank.ts"
+      ],
+      "interfaces": [
+        "Steam登录API接口",
+        "用户信息管理接口",
+        "服务器信息查询接口",
+        "公告系统接口",
+        "排行榜数据接口"
+      ],
+      "dependencies": [
+        "../utils/request.ts",
+        "axios"
+      ],
+      "test_files": [
+        "../components/demo/ApiDemo.vue"
+      ],
+      "coverage": "完整"
+    },
+    {
+      "name": "用户认证组件模块", 
+      "path": "src/components/auth/",
+      "type": "component",
+      "documentation": "src/components/auth/CLAUDE.md",
+      "entry_points": [
+        "src/components/auth/SteamLogin.vue",
+        "src/components/auth/UserInfo.vue"
+      ],
+      "key_files": [
+        "src/components/auth/SteamLogin.vue",
+        "src/components/auth/UserInfo.vue"
+      ],
+      "interfaces": [
+        "Steam OpenID登录认证",
+        "用户信息展示和操作",
+        "登录状态管理UI"
+      ],
+      "dependencies": [
+        "../../stores/user",
+        "naive-ui",
+        "@vicons/ionicons5"
+      ],
+      "test_files": [],
+      "coverage": "完整"
+    },
+    {
+      "name": "状态管理模块",
+      "path": "src/stores/",
+      "type": "store", 
+      "documentation": "src/stores/CLAUDE.md",
+      "entry_points": [
+        "src/stores/index.ts"
+      ],
+      "key_files": [
+        "src/stores/user.ts",
+        "src/stores/index.ts"
+      ],
+      "interfaces": [
+        "用户认证状态管理",
+        "用户信息持久化",
+        "登录会话管理"
+      ],
+      "dependencies": [
+        "pinia",
+        "../api/user"
+      ],
+      "test_files": [],
+      "coverage": "完整"
+    },
+    {
+      "name": "工具函数模块",
+      "path": "src/utils/", 
+      "type": "utility",
+      "documentation": "src/utils/CLAUDE.md",
+      "entry_points": [
+        "src/utils/request.ts",
+        "src/utils/config.ts"
+      ],
+      "key_files": [
+        "src/utils/request.ts",
+        "src/utils/config.ts"
+      ],
+      "interfaces": [
+        "HTTP请求封装和拦截器",
+        "动态配置管理",
+        "统一错误处理"
+      ],
+      "dependencies": [
+        "axios"
+      ],
+      "test_files": [],
+      "coverage": "完整"
+    },
+    {
+      "name": "首页组件集合",
+      "path": "src/components/home/",
+      "type": "component",
+      "documentation": null,
+      "entry_points": [
+        "src/components/home/Banner.vue",
+        "src/components/home/HomeServersSection.vue"
+      ],
+      "key_files": [
+        "src/components/home/Banner.vue",
+        "src/components/home/HomeServersSection.vue",
+        "src/components/home/AdvantageSection.vue",
+        "src/components/home/HomeRankingSection.vue",
+        "src/components/home/HomeAboutSection.vue",
+        "src/components/home/FeatureSection.vue"
+      ],
+      "interfaces": [
+        "首页横幅展示",
+        "服务器信息展示",
+        "优势介绍区块",
+        "排行榜展示",
+        "关于社区介绍"
+      ],
+      "dependencies": [
+        "naive-ui",
+        "../utils/config.ts"
+      ],
+      "test_files": [],
+      "coverage": "部分（需要补充文档）"
+    },
+    {
+      "name": "服务器组件模块",
+      "path": "src/components/servers/",
+      "type": "component", 
+      "documentation": null,
+      "entry_points": [
+        "src/components/servers/ServerCard.vue"
+      ],
+      "key_files": [
+        "src/components/servers/ServerCard.vue"
+      ],
+      "interfaces": [
+        "服务器信息卡片显示",
+        "在线玩家列表",
+        "服务器状态监控"
+      ],
+      "dependencies": [
+        "naive-ui",
+        "../api/server"
+      ],
+      "test_files": [],
+      "coverage": "部分（需要补充文档）"
+    },
+    {
+      "name": "页面视图模块",
+      "path": "src/views/",
+      "type": "view",
+      "documentation": null,
+      "entry_points": [
+        "src/views/Home.vue",
+        "src/views/Servers.vue",
+        "src/views/SteamCallback.vue"
+      ],
+      "key_files": [
+        "src/views/Home.vue",
+        "src/views/Servers.vue", 
+        "src/views/SteamCallback.vue",
+        "src/views/Ranking.vue",
+        "src/views/Team.vue",
+        "src/views/About.vue",
+        "src/views/History.vue",
+        "src/views/Shop.vue",
+        "src/views/Market.vue",
+        "src/views/Workshop.vue",
+        "src/views/Ads.vue"
+      ],
+      "interfaces": [
+        "首页布局和内容组织",
+        "服务器列表页面",
+        "Steam认证回调处理",
+        "排行榜页面",
+        "团队介绍页面"
+      ],
+      "dependencies": [
+        "../components/home/",
+        "../components/servers/",
+        "../stores/user"
+      ],
+      "test_files": [],
+      "coverage": "部分（需要补充文档）"
+    },
+    {
+      "name": "布局组件模块",
+      "path": "src/layouts/",
+      "type": "layout",
+      "documentation": null,
+      "entry_points": [
+        "src/layouts/DefaultLayout.vue"
+      ],
+      "key_files": [
+        "src/layouts/DefaultLayout.vue"
+      ],
+      "interfaces": [
+        "全局页面布局",
+        "导航栏和菜单",
+        "页脚信息",
+        "用户认证集成"
+      ],
+      "dependencies": [
+        "../components/auth/",
+        "../stores/user",
+        "naive-ui"
+      ],
+      "test_files": [],
+      "coverage": "部分（需要补充文档）"
+    }
+  ],
+  "ignore_patterns": [
+    "node_modules/**",
+    ".git/**",
+    ".github/**", 
+    "dist/**",
+    "build/**",
+    ".next/**",
+    "__pycache__/**",
+    "*.lock",
+    "*.log",
+    "*.bin",
+    "*.pdf",
+    "*.png",
+    "*.jpg",
+    "*.jpeg",
+    "*.gif",
+    "*.mp4",
+    "*.zip",
+    "*.tar",
+    "*.gz"
+  ],
+  "gaps_and_recommendations": {
+    "missing_documentation": [
+      "src/components/home/ - 首页组件集合需要详细文档",
+      "src/components/servers/ - 服务器组件文档",
+      "src/views/ - 页面视图模块文档",
+      "src/layouts/ - 布局组件文档",
+      "src/router/ - 路由配置文档",
+      "src/types/ - 类型定义文档"
+    ],
+    "next_steps": [
+      "为首页组件模块创建 src/components/home/CLAUDE.md",
+      "为服务器组件创建 src/components/servers/CLAUDE.md", 
+      "为页面视图创建 src/views/CLAUDE.md",
+      "为布局组件创建 src/layouts/CLAUDE.md",
+      "补充路由配置和类型定义的详细文档",
+      "添加测试文件和测试策略文档"
+    ],
+    "architecture_gaps": [
+      "缺少单元测试覆盖",
+      "需要补充组件交互测试",
+      "API接口集成测试待完善"
+    ]
+  },
+  "build_and_deployment": {
+    "build_tool": "Vite",
+    "package_manager": "npm",
+    "node_version_required": ">=16.0.0",
+    "dev_server": "http://localhost:5173",
+    "build_output": "dist/",
+    "environment_variables": [
+      "VITE_API_BASE_URL"
+    ]
+  }
+}
