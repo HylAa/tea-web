@@ -8,9 +8,9 @@
           <span>{{ server.location || "未知" }}</span>
         </div> -->
       </div>
-      <div class="server-status" :class="{ online: isServerOnline }">
+      <!-- <div class="server-status" :class="{ online: isServerOnline }">
         {{ isServerOnline ? "在" : "离" }}
-      </div>
+      </div> -->
     </div>
 
     <div class="server-details">
@@ -22,10 +22,10 @@
         <n-icon><people-outline /></n-icon>
         <span>{{ server.players }}/{{ server.maxplayers }}</span>
       </div>
-      <div class="detail-item" :class="getPingClass(server.ping || 0)">
+      <!-- <div class="detail-item" :class="getPingClass(server.ping || 0)">
         <n-icon><time-outline /></n-icon>
-        <span>{{ server.ping || "?" }}ms</span>
-      </div>
+        <span>{{ server.ping || "0" }}ms</span>
+      </div> -->
     </div>
 
     <!-- 在线玩家列表 -->
@@ -46,6 +46,8 @@
               :alt="player.name"
               class="player-avatar"
               @error="handleImageError"
+              @click="openSteamProfile(player.steam)"
+              style="cursor: pointer"
             />
             <span class="player-name">{{ player.name }}</span>
           </div>
@@ -161,13 +163,13 @@ const handleCopy = async () => {
       // 优先使用现代 Clipboard API
       if (navigator.clipboard && window.isSecureContext) {
         await navigator.clipboard.writeText(serverAddress);
-        message.success("服务器连接信息已复制到剪贴板");
+        message.success("连接指令已复制到剪贴板");
       } else {
         // 回退到传统方法
         textArea.select();
         const successful = document.execCommand("copy");
         if (successful) {
-          message.success("服务器连接信息已复制到剪贴板");
+          message.success("连接指令已复制到剪贴板");
         } else {
           message.info("请按 Ctrl+C 复制服务器连接信息");
           // 选中文本以便用户手动复制
@@ -244,6 +246,14 @@ const fetchPlayerAvatar = async (player: OnlinePlayer) => {
   } catch (error) {
     console.error("获取Steam头像失败:", error);
     player.avatarUrl = getDefaultAvatar();
+  }
+};
+
+// 添加打开Steam个人资料页面的方法
+const openSteamProfile = (steamID: string) => {
+  const steamId64 = convertSteamIDToSteamID64(steamID);
+  if (steamId64) {
+    window.open(`https://steamcommunity.com/profiles/${steamId64}`, "_blank");
   }
 };
 

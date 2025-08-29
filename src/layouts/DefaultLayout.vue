@@ -29,7 +29,23 @@
             <n-icon><notifications-outline /></n-icon>
           </template>
         </n-button>
-        <n-button type="primary" class="login-button" @click="handleLogin">
+        <SteamLogin
+          v-model:visible="showSteamLogin"
+          @success="handleLoginSuccess"
+          @close="showSteamLogin = false"
+        />
+        
+        <UserInfo
+          v-if="userStore.isLoggedIn"
+          @logout="handleLogout"
+        />
+        
+        <n-button
+          v-else
+          type="primary"
+          class="login-button"
+          @click="handleLogin"
+        >
           <template #icon>
             <n-icon><logo-steam /></n-icon>
           </template>
@@ -79,10 +95,14 @@
         <div class="footer-section">
           <h3 class="footer-title">关注我们</h3>
           <div class="social-icons">
-            <a href="https://github.com/ELDment/TEA-api-docs" title="GitHub">
+            <a
+              href="https://github.com/ELDment/TEA-api-docs"
+              target="_blank"
+              title="GitHub"
+            >
               <n-icon size="24"><logo-github /></n-icon>
             </a>
-            <a href="https://qm.qq.com/q/nXvHy96GLm" title="QQ">
+            <a href="https://qm.qq.com/q/nXvHy96GLm" target="_blank" title="QQ">
               <n-icon size="24">
                 <QQIcon />
               </n-icon>
@@ -192,9 +212,6 @@ import {
   NDrawer,
   NDrawerContent,
   NSpin,
-  NEmpty,
-  NCarousel,
-  NCarouselItem,
   useMessage,
   NTimeline,
   NTimelineItem,
@@ -203,34 +220,33 @@ import { RouterLink, useRoute } from "vue-router";
 import {
   HomeOutline,
   PeopleOutline,
-  InformationCircleOutline,
   NotificationsOutline,
   LogOutOutline,
   SettingsOutline,
   PersonOutline,
   PodiumOutline,
   ServerOutline,
-  BagOutline,
-  CartOutline,
-  SwapHorizontalOutline,
-  BrushOutline,
   LogoSteam,
   LogoGithub,
-  LogoTux,
-  LogoFacebook,
-  LogoTwitter,
-  LogoYoutube,
-  LogoDiscord,
 } from "@vicons/ionicons5";
 import { announcementApi } from "../api";
 import { Announcement } from "../api/announcement";
 import QQIcon from "../components/icons/QQIcon.vue";
+import SteamLogin from "../components/auth/SteamLogin.vue";
+import UserInfo from "../components/auth/UserInfo.vue";
+import { useUserStore } from "../stores/user";
 
 function renderIcon(icon: any) {
   return () => h(NIcon, null, { default: () => h(icon) });
 }
 
 const route = useRoute();
+const message = useMessage();
+const userStore = useUserStore();
+
+// Steam 登录相关
+const showSteamLogin = ref(false);
+
 const currentPath = ref(route.path);
 
 // 监听路由变化
@@ -245,6 +261,22 @@ const activeKey = computed(() => {
   // 移除开头的斜杠，获取第一级路径
   return path.split("/")[1];
 });
+
+// 处理登录
+const handleLogin = () => {
+  showSteamLogin.value = true;
+};
+
+// 处理登录成功
+const handleLoginSuccess = (user: any) => {
+  message.success(`欢迎回来，${user.displayName || user.username}！`);
+  showSteamLogin.value = false;
+};
+
+// 处理登出
+const handleLogout = () => {
+  message.success('已退出登录');
+};
 
 const menuOptions = [
   {
@@ -358,35 +390,7 @@ const menuOptions = [
   },
 ];
 
-const userOptions = [
-  {
-    label: "个人信息",
-    key: "profile",
-    icon: renderIcon(PersonOutline),
-  },
-  {
-    label: "设置",
-    key: "settings",
-    icon: renderIcon(SettingsOutline),
-  },
-  {
-    type: "divider",
-    key: "divider",
-  },
-  {
-    label: "退出登录",
-    key: "logout",
-    icon: renderIcon(LogOutOutline),
-  },
-];
-
-const handleLogin = () => {
-  // 这里添加Steam登录逻辑
-  console.log("Steam login clicked");
-};
-
 // 通知公告相关
-const message = useMessage();
 const showAnnouncement = ref(false);
 const announcementLoading = ref(false);
 const announcements = ref<Announcement[]>([]);
@@ -404,14 +408,10 @@ const fetchAnnouncements = async () => {
   }
 };
 
-// 处理公告轮播切换
-const handleAnnouncementChange = (index: number) => {
-  currentAnnouncement.value = announcements.value[index];
-};
-
-// 组件挂载时获取公告
-onMounted(() => {
+// 组件挂载时获取公告和初始化用户状态
+onMounted(async () => {
   fetchAnnouncements();
+  await userStore.initialize();
 });
 </script>
 

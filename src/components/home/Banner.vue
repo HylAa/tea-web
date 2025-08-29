@@ -110,7 +110,7 @@ const scrollDown = () => {
 
 .banner-subtitle {
   font-size: 60px;
-  color: #4caf50;
+  color: #fff;
 }
 
 .banner-title {
@@ -122,6 +122,10 @@ const scrollDown = () => {
 
 .banner-description {
   font-size: 20px;
+  font-weight: bold;
+  background: linear-gradient(45deg, #73ffbd 0%, #95fdfb 50%, #ffffff 100%);
+  background-clip: text;
+  color: transparent;
   margin-bottom: 32px;
   line-height: 1.6;
   max-width: 700px;
